@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col col-md-12">
+        <div class="form-group">
+            <span class="p-float-label p-fluid mt-3">
+                <input id="float-input" type="text" pInputText [(ngModel)]="name">
+                <label for="float-input">Username</label>
+            </span>
+        </div>
+    </div>
+    <div class="col col-md-6 mt-5">
+        <div class="form-group">
+            <button type="button" (click)="changeEnableText()" class="w-100 btn btn-primary">Bootstrap</button>
+        </div>
+    </div>
+    <div class="col col-md-6 mt-5">
+        <div class="form-group">
+            <button pButton (click)="changeEnableText()" type="button" class="w-100 p-button-success"
+                label="PrimeNG"></button>
+        </div>
+    </div>
+    <div class="col col-md-6 mt-5 text-center">
+        <div class="form-group">
+            <span>{{name}}</span>
+        </div>
+    </div>
+    <div class="col col-md-6 mt-5 text-center" *ngIf="enableText">
+        <div class="form-group">
+            <span>Mucho gusto {{name}}</span>
+        </div>
+    </div>
+</div>
