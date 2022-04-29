@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError, throwError, } from 'rxjs';
-import { Seguro } from '../models/seguro';
-
+import { Siniestro } from '../models/siniestro';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SeguroService {
+export class SiniestroService {
 
-  API_URI = environment.urlService + "seguro/";
+  API_URI = environment.urlService + "siniestro/";
 
 
   constructor(private http: HttpClient) { }
@@ -43,23 +42,23 @@ export class SeguroService {
     return throwError(() => error);
   }
 
-  buscarSeguro(pagina: number, tamano: number, filtro: string, sortOrder: number) {
+  getAll(pagina: number, tamano: number, filtro: string, sortOrder: number) {
     return this.consumeGet(`buscar/${pagina}/${tamano}/${filtro}/${sortOrder}`);
   }
 
-  crearSeguro(seguro: Seguro) {
-    return this.consumePost('guardar', seguro);
+  buscarSiniestroPorId(id: number) {
+    return this.consumeGet(`buscar/${id}`);
   }
 
-  eliminarSeguro(id: number) {
-    return this.consumeDelete(`eliminar/${id}`);
-  }
-
-  buscarSeguroPorPoliza(poliza: number) {
-    return this.consumeGet(`buscar/${poliza}`);
-  }
-
-  getAll() {
+  getAllS() {
     return this.consumeGet(`buscar/`);
+  }
+
+  create(siniestro: Siniestro) {
+    return this.consumePost('guardar', siniestro);
+  }
+
+  delete(id: number) {
+    return this.consumeDelete(`eliminar/${id}`);
   }
 }

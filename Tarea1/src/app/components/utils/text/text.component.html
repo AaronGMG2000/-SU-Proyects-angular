@@ -1,0 +1,7 @@
+<div class="form-group">
+    <span class="p-float-label p-fluid mt-3">
+        <input id="{{name}}" name="{{name}}" type="{{type}}" pInputText [(ngModel)]="variable[element]"
+            [readonly]="readonly" [required]="required" maxlength="{{maxlength}}" [ngModelOptions]="{standalone: true}">
+        <label for="{{name}}">{{text}}</label>
+    </span>
+</div>

@@ -15,13 +15,40 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import { SeguroComponent } from './components/seguro/seguro.component';
+import { TextComponent } from './components/utils/text/text.component';
+import { TableComponent } from './components/utils/table/table.component';
+import { DialogModule } from 'primeng/dialog';
+import { ToolbarModule } from 'primeng/toolbar';
+import { AutocompleteComponent } from './utils/autocomplete/autocomplete.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { SiniestroComponent } from './components/siniestro/siniestro.component';
+import { CompaniaComponent } from './components/compania/compania.component';
+import { CompaniaSeguroComponent } from './components/compania-seguro/compania-seguro.component';
+import { PeritoComponent } from './components/perito/perito.component';
+import { CompaniaDetailComponent } from './components/compania/compania-detail/compania-detail.component';
+import { SiniestroDetailComponent } from './components/siniestro/siniestro-detail/siniestro-detail.component';
+import { UserDetailComponent } from './components/user/user-detail/user-detail.component';
+import { CompaniaSeguroDetailComponent } from './components/compania-seguro/compania-seguro-detail/compania-seguro-detail.component';
+import { AccordionModule } from 'primeng/accordion';
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
     HomeComponent,
-    SeguroComponent
+    SeguroComponent,
+    TextComponent,
+    TableComponent,
+    AutocompleteComponent,
+    SiniestroComponent,
+    CompaniaComponent,
+    CompaniaSeguroComponent,
+    PeritoComponent,
+    CompaniaDetailComponent,
+    SiniestroDetailComponent,
+    UserDetailComponent,
+    CompaniaSeguroDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -35,9 +62,12 @@ import { SeguroComponent } from './components/seguro/seguro.component';
     BrowserAnimationsModule,
     ScrollPanelModule,
     ConfirmDialogModule,
-    MessagesModule
-
-
+    MessagesModule,
+    ToastModule,
+    DialogModule,
+    ToolbarModule,
+    AutoCompleteModule,
+    AccordionModule
   ],
   providers: [ConfirmationService],
   bootstrap: [AppComponent]

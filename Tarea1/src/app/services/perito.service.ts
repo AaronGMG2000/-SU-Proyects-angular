@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError, throwError, } from 'rxjs';
-import { Seguro } from '../models/seguro';
-
+import { Perito } from '../models/perito';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SeguroService {
+export class PeritoService {
 
-  API_URI = environment.urlService + "seguro/";
+  API_URI = environment.urlService + "perito/";
 
 
   constructor(private http: HttpClient) { }
@@ -43,23 +42,23 @@ export class SeguroService {
     return throwError(() => error);
   }
 
-  buscarSeguro(pagina: number, tamano: number, filtro: string, sortOrder: number) {
+  getAll(pagina: number, tamano: number, filtro: string, sortOrder: number) {
     return this.consumeGet(`buscar/${pagina}/${tamano}/${filtro}/${sortOrder}`);
   }
 
-  crearSeguro(seguro: Seguro) {
-    return this.consumePost('guardar', seguro);
+  create(perito: Perito) {
+    return this.consumePost('guardar', perito);
   }
 
-  eliminarSeguro(id: number) {
+  delete(id: number) {
     return this.consumeDelete(`eliminar/${id}`);
   }
 
-  buscarSeguroPorPoliza(poliza: number) {
-    return this.consumeGet(`buscar/${poliza}`);
+  buscarPeritoPorId(id: number) {
+    return this.consumeGet(`buscar/${id}`);
   }
 
-  getAll() {
+  getAllS() {
     return this.consumeGet(`buscar/`);
   }
 }

@@ -1,26 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmationService, Message, PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, Message, PrimeNGConfig, MessageService } from 'primeng/api';
 import { Seguro } from 'src/app/models/seguro';
 import { SeguroService } from '../../services/seguro.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-seguro',
   templateUrl: './seguro.component.html',
-  styleUrls: ['./seguro.component.scss']
+  styleUrls: ['./seguro.component.scss'],
+  providers: [MessageService]
 })
 export class SeguroComponent implements OnInit {
 
-  constructor(private seguroService: SeguroService, private confirmationService: ConfirmationService, private primengConfig: PrimeNGConfig) { }
+  constructor(private service: UserService, private seguroService: SeguroService, private confirmationService: ConfirmationService, private primengConfig: PrimeNGConfig, private messageService: MessageService) { }
+  clientes: any[] = [];
   seguros: Seguro[] = [];
+  selectData: any;
+  filtro: string = "numeroPoliza";
+  displayMaximizable: boolean = false;
+  sortOrder: number = 1;
   titulo = "Crear"
+  state = "Creado"
   seguro: Seguro = {
     numeroPoliza: 0,
     ramo: '',
-    fechaInicio: new Date(),
-    fechaVencimiento: new Date(),
+    fechaInicio: Date.now().toString().split('T')[0],
+    fechaVencimiento: Date.now().toString().split('T')[0],
     condicionesParticulares: '',
     observaciones: '',
-    dniCl: '',
+    dniCl: 0,
   };
   msgs: Message[] = [];
   totalRecords: number = 10;
@@ -42,15 +50,22 @@ export class SeguroComponent implements OnInit {
       { field: 'fechaVencimiento', header: 'Vencimiento' },
     ];
   }
-
+  cancelar() {
+    this.seguro = new Seguro(0, '', Date.now().toString().split('T')[0], Date.now().toString().split('T')[0], '', '', 0);
+    this.state = "Creado"
+    this.titulo = "Crear"
+    this.displayMaximizable = false;
+    this.selectData = {};
+  }
   obtenerSeguros(event: any) {
     this.loading = true;
-    this.seguroService.buscarSeguro(event.first / event.rows, event.rows).subscribe({
+    this.filtro = event.sortField ? event.sortField : "numeroPoliza"
+    this.sortOrder = event.sortOrder
+    this.seguroService.buscarSeguro(event.first / event.rows, event.rows, this.filtro, this.sortOrder).subscribe({
       next: (data: any) => {
         this.seguros = data.content;
         this.totalRecords = data.totalElements;
         this.loading = false;
-        console.log(data);
       },
       error: (err) => {
         console.log(err);
@@ -60,18 +75,43 @@ export class SeguroComponent implements OnInit {
 
   editarSeguro(seguro: Seguro) {
     this.seguro = seguro;
+    this.seguro.fechaInicio = seguro.fechaInicio.split('T')[0];
+    this.seguro.fechaVencimiento = seguro.fechaVencimiento.split('T')[0];
+    this.titulo = "Editar"
+    this.state = "Editado"
+    this.service.buscarUsuarioPorDni(seguro.dniCl).subscribe({
+      next: (data: any) => {
+        this.selectData = { dni: data.dniCl, detalle: `${data.dniCl} - ${data.nombreCl} ${data.apellido1} ${data.apellido2}` };
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+    this.showMaximizableDialog()
+  }
+
+  obtenerClientes() {
+    this.service.getAll().subscribe({
+      next: (data: any) => {
+        data.forEach((element: { dniCl: any; nombreCl: any; apellido1: any; apellido2: any; }) => {
+          this.clientes.push({ dni: element.dniCl, detalle: `${element.dniCl} - ${element.nombreCl} ${element.apellido1} ${element.apellido2}` });
+        });
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   eliminarSeguro(seguro: Seguro) {
     this.seguroService.eliminarSeguro(seguro.numeroPoliza).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.obtenerSeguros({ first: 0, rows: 10 });
-        this.msgs = [{ severity: 'success', summary: 'Eliminado', detail: 'El Seguro con el Numero de Poliza: ' + seguro.numeroPoliza + ' ha sido eliminado' }];
+      next: () => {
+        this.obtenerSeguros({ first: 0, rows: 10, sortField: this.filtro, sortOrder: this.sortOrder });
+        this.showMessage('success', 'Eliminado', `El Seguro con el Numero de Poliza: ${seguro.numeroPoliza} ha sido eliminado`);
       },
       error: (err) => {
         console.log(err);
-        this.msgs = [{ severity: 'error', summary: 'Error', detail: 'No se ha podido eliminar el seguro' }];
+        this.showMessage('error', 'Error', `No se ha podido eliminar el seguro`);
       }
     });
   }
@@ -84,9 +124,6 @@ export class SeguroComponent implements OnInit {
       accept: () => {
         this.eliminarSeguro(seguro);
       },
-      reject: () => {
-        this.msgs = [{ severity: 'warn', summary: 'Respuesta:', detail: 'Acción cancelada' }];
-      }
     });
   }
 
@@ -96,18 +133,29 @@ export class SeguroComponent implements OnInit {
       this.msgs = [{ severity: 'warn', summary: 'Error:', detail: 'Complete los datos para continuar' }];
     } else {
       this.seguroService.crearSeguro(this.seguro).subscribe({
-        next: (data: any) => {
-          console.log(data);
-          this.obtenerSeguros({ first: 0, rows: 10 });
-          this.msgs = [{ severity: 'success', summary: 'Creado', detail: 'El Seguro ha sido creado con exito' }];
+        next: () => {
+          this.obtenerSeguros({ first: 0, rows: 10, sortField: this.filtro, sortOrder: this.sortOrder });
+          this.showMessage('success', this.state, `El Seguro ha sido ${this.state} con exito`);
           formulario.reset();
+          this.state = "Creado"
+          this.displayMaximizable = false;
         },
-        error: (err) => {
-          console.log(err);
-          this.msgs = [{ severity: 'error', summary: 'Error', detail: 'No se ha podido crear el Seguro' }];
+        error: () => {
+          this.showMessage('error', 'Error', 'No se ha podido crear el Seguro');
         }
       });
     }
   }
+  showMaximizableDialog() {
+    this.obtenerClientes();
+    this.displayMaximizable = true;
+  }
 
+  showMessage(type: string, summary: string, detail: string) {
+    this.messageService.add({ key: 'tc', severity: type, summary: summary, detail: detail, life: 1500 });
+  }
+
+  selectDataItem(event: any) {
+    this.seguro.dniCl = event.dni
+  }
 }

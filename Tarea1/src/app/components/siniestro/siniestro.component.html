@@ -1,49 +1,52 @@
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
-<p-dialog header="Creación de Cliente" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '80vw'}"
-    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="true" [closable]="false">
+<p-dialog header="Creación de Siniestros" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '80vw'}"
+    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
     <form action="" id="formClient" [noValidate]="false">
         <div class="row">
             <div class="col col-md-12">
-                <app-text [name]="'nombreCl'" [variable]="client" [element]="'nombreCl'" [text]="'Nombre'">
+                <app-text [name]="'idSiniestro'" [variable]="item" [element]="'idSiniestro'" [type]="'number'"
+                    [text]="'ID'">
+                </app-text>
+            </div>
+            <div class="col col-md-4 mt-3">
+                <app-text [name]="'aceptado'" [variable]="item" [element]="'aceptado'" [text]="'Aceptado'">
+                </app-text>
+            </div>
+            <div class="col col-md-4 mt-3">
+                <app-text [name]="'indermizacion'" [variable]="item" [element]="'indermizacion'" [type]="'number'"
+                    [text]="'Indermización'" maxlength="50">
+                </app-text>
+            </div>
+            <div class="col col-md-4 mt-3">
+                <app-text [name]="'fechaSiniestro'" [variable]="item" [element]="'fechaSiniestro'" [type]="'date'"
+                    [text]="'Fecha del Siniestro'">
                 </app-text>
             </div>
             <div class="col col-md-6 mt-3">
-                <app-text [name]="'apellido1'" [variable]="client" [element]="'apellido1'" [text]="'Primer apellido'">
-                </app-text>
+                <div class="col col-12">
+                    <app-autocomplete [data]="seguros" [name]="'seguro'" [required]="true" [field]="'numeroPoliza'"
+                        [placeholder]="'Seguro'" [selectData]="seguro" (onSelectData)="selectDataItem($event)">
+                    </app-autocomplete>
+                </div>
             </div>
             <div class="col col-md-6 mt-3">
-                <app-text [name]="'apellido2'" [variable]="client" [element]="'apellido2'" [text]="'Segundo apellido'">
-                </app-text>
+                <div class="col col-12">
+                    <app-autocomplete [data]="peritos" [name]="'perito'" [required]="true" [field]="'detalle'"
+                        [placeholder]="'Perito'" [selectData]="perito" (onSelectData)="selectDataPerito($event)">
+                    </app-autocomplete>
+                </div>
             </div>
-            <div class="col col-md-4 mt-3">
-                <app-text [name]="'claseVia'" [variable]="client" [element]="'claseVia'" [text]="'Clase de Via'">
-                </app-text>
-            </div>
-            <div class="col col-md-4 mt-3">
-                <app-text [name]="'nombreVia'" [variable]="client" [element]="'nombreVia'" [text]="'Nombre de Via'">
-                </app-text>
-            </div>
-            <div class="col col-md-4 mt-3">
-                <app-text [name]="'numeroVia'" [variable]="client" [element]="'numeroVia'" [text]="'Numero de Via'">
-                </app-text>
-            </div>
-            <div class="col col-md-4 mt-3">
-                <app-text [name]="'codPostal'" [variable]="client" [element]="'codPostal'" [text]="'Codigo Postal'">
-                </app-text>
-            </div>
-            <div class="col col-md-4 mt-3">
-                <app-text [name]="'ciudad'" [variable]="client" [element]="'ciudad'" [text]="'Ciudad'">
-                </app-text>
-            </div>
-            <div class="col col-md-4 mt-3">
-                <app-text [name]="'telefono'" [variable]="client" [element]="'telefono'" [text]="'Telefono'"
-                    [maxlength]="'10'">
+            <div class="col col-md-12 mt-3">
+                <app-text [name]="'causas'" [variable]="item" [element]="'causas'" [text]="'Causas'" maxlength="50">
                 </app-text>
             </div>
             <div class="col col-md-12 mt-3">
-                <app-text [name]="'observaciones'" [variable]="client" [element]="'observaciones'"
-                    [text]="'Observaciones'" maxlength="50">
-                </app-text>
+            </div>
+            <div class="col col-md-12 mt-3">
+            </div>
+            <div class="col col-md-12 mt-3">
+            </div>
+            <div class="col col-md-12 mt-3">
             </div>
         </div>
     </form>
@@ -69,7 +72,7 @@
     <div class="card-header font-weight-bold" style="background-color: #2a323d;">
         <p-toolbar>
             <div class="p-toolbar-group-left">
-                <h5>Clientes</h5>
+                <h5>Siniestros</h5>
             </div>
             <div class="p-toolbar-group-right">
                 <p-button (click)="showMaximizableDialog()" icon="pi pi-plus"></p-button>
@@ -78,14 +81,13 @@
     </div>
     <div class="card-body" style="background-color: #2a323df7; width: 100%; height: 515px;  overflow: auto;">
         <div class="row">
-            <div class="col col-md-12 mt-3">
-                <p-table #dt class="w-100" [value]="clients" [lazy]="true" [columns]="cols"
-                    (onLazyLoad)="obtenerClientes($event)" responsiveLayout="scroll" dataKey="id" [paginator]="true"
-                    [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [showCurrentPageReport]="true"
-                    allowUnsorting="true" responsiveLayout="scroll" sortMode="single"
-                    currentPageReportTemplate=" Mostrando {first} a {last} de {totalRecords} entradas"
+            <div class="col col-md-12">
+                <p-table #dt class="w-100" [value]="items" [lazy]="true" [columns]="cols" (onLazyLoad)="obtener($event)"
+                    responsiveLayout="scroll" dataKey="id" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"
+                    [loading]="loading" [showCurrentPageReport]="true" allowUnsorting="true" responsiveLayout="scroll"
+                    sortMode="single" currentPageReportTemplate=" Mostrando {first} a {last} de {totalRecords} entradas"
                     [rowsPerPageOptions]="[5,10,25,50,100]" [scrollable]="true" scrollHeight="400px"
-                    (onRowSelect)="select($event)" dataKey="dniCl" selectionMode="single">
+                    (onRowSelect)="select($event)" dataKey="idSiniestro" selectionMode="single">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -100,11 +102,12 @@
                     <ng-template pTemplate="body" let-data let-columns="columns">
                         <tr [pSelectableRow]="data">
                             <td *ngFor="let col of columns">
-                                {{data[col.field]}}
+                                {{col.field == 'perito' ? data.perito.dniPerito: col.field=='seguro'?
+                                data.seguro.numeroPoliza:data[col.field]}}
                             </td>
                             <td>
                                 <button pButton class="w-100" type="button" icon="pi pi-pencil"
-                                    (click)="editarCliente(data)"></button>
+                                    (click)="editar(data)"></button>
                                 <button class="w-100 btn-danger ms-1" pButton type="button" icon="pi pi-times"
                                     (click)="confirmarDelete(data)"></button>
                             </td>

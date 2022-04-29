@@ -42,8 +42,16 @@ export class UserService {
     return throwError(() => error);
   }
 
-  buscarUsuario(pagina: number, tamano: number) {
-    return this.consumeGet(`buscar/${pagina}/${tamano}`);
+  buscarUsuario(pagina: number, tamano: number, filtro: string, sortOrder: number) {
+    return this.consumeGet(`buscar/${pagina}/${tamano}/${filtro}/${sortOrder}`);
+  }
+
+  buscarUsuarioPorDni(dni: number) {
+    return this.consumeGet(`buscar/${dni}`);
+  }
+
+  getAll() {
+    return this.consumeGet(`buscar/`);
   }
 
   crearUsuario(usuario: User) {

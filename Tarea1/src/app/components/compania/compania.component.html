@@ -1,48 +1,40 @@
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
-<p-dialog header="Creación de Cliente" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '80vw'}"
-    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="true" [closable]="false">
+<p-dialog header="Creación de Compañia" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '80vw'}"
+    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
     <form action="" id="formClient" [noValidate]="false">
         <div class="row">
             <div class="col col-md-12">
-                <app-text [name]="'nombreCl'" [variable]="client" [element]="'nombreCl'" [text]="'Nombre'">
-                </app-text>
-            </div>
-            <div class="col col-md-6 mt-3">
-                <app-text [name]="'apellido1'" [variable]="client" [element]="'apellido1'" [text]="'Primer apellido'">
-                </app-text>
-            </div>
-            <div class="col col-md-6 mt-3">
-                <app-text [name]="'apellido2'" [variable]="client" [element]="'apellido2'" [text]="'Segundo apellido'">
+                <app-text [name]="'nombreCompania'" [variable]="item" [element]="'nombreCompania'" [text]="'Nombre'">
                 </app-text>
             </div>
             <div class="col col-md-4 mt-3">
-                <app-text [name]="'claseVia'" [variable]="client" [element]="'claseVia'" [text]="'Clase de Via'">
+                <app-text [name]="'claseVia'" [variable]="item" [element]="'claseVia'" [text]="'Clase de Via'">
                 </app-text>
             </div>
             <div class="col col-md-4 mt-3">
-                <app-text [name]="'nombreVia'" [variable]="client" [element]="'nombreVia'" [text]="'Nombre de Via'">
+                <app-text [name]="'nombreVia'" [variable]="item" [element]="'nombreVia'" [text]="'Nombre de Via'">
                 </app-text>
             </div>
             <div class="col col-md-4 mt-3">
-                <app-text [name]="'numeroVia'" [variable]="client" [element]="'numeroVia'" [text]="'Numero de Via'">
+                <app-text [name]="'numeroVia'" [variable]="item" [element]="'numeroVia'" [text]="'Numero de Via'">
                 </app-text>
             </div>
             <div class="col col-md-4 mt-3">
-                <app-text [name]="'codPostal'" [variable]="client" [element]="'codPostal'" [text]="'Codigo Postal'">
+                <app-text [name]="'codPostal'" [variable]="item" [element]="'codPostal'" [text]="'Codigo Postal'">
                 </app-text>
             </div>
             <div class="col col-md-4 mt-3">
-                <app-text [name]="'ciudad'" [variable]="client" [element]="'ciudad'" [text]="'Ciudad'">
+                <app-text [name]="'telefonoContratacion'" [variable]="item" [element]="'telefonoContratacion'"
+                    [text]="'Telefono de Contratación'" [maxlength]="'10'">
                 </app-text>
             </div>
             <div class="col col-md-4 mt-3">
-                <app-text [name]="'telefono'" [variable]="client" [element]="'telefono'" [text]="'Telefono'"
-                    [maxlength]="'10'">
+                <app-text [name]="'telefonoSiniestros'" [variable]="item" [element]="'telefonoSiniestros'"
+                    [text]="'Telefono de Siniestros'" [maxlength]="'10'">
                 </app-text>
             </div>
             <div class="col col-md-12 mt-3">
-                <app-text [name]="'observaciones'" [variable]="client" [element]="'observaciones'"
-                    [text]="'Observaciones'" maxlength="50">
+                <app-text [name]="'notas'" [variable]="item" [element]="'notas'" [text]="'Notas'" maxlength="50">
                 </app-text>
             </div>
         </div>
@@ -69,7 +61,7 @@
     <div class="card-header font-weight-bold" style="background-color: #2a323d;">
         <p-toolbar>
             <div class="p-toolbar-group-left">
-                <h5>Clientes</h5>
+                <h5>Compañias</h5>
             </div>
             <div class="p-toolbar-group-right">
                 <p-button (click)="showMaximizableDialog()" icon="pi pi-plus"></p-button>
@@ -79,13 +71,12 @@
     <div class="card-body" style="background-color: #2a323df7; width: 100%; height: 515px;  overflow: auto;">
         <div class="row">
             <div class="col col-md-12 mt-3">
-                <p-table #dt class="w-100" [value]="clients" [lazy]="true" [columns]="cols"
-                    (onLazyLoad)="obtenerClientes($event)" responsiveLayout="scroll" dataKey="id" [paginator]="true"
-                    [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [showCurrentPageReport]="true"
-                    allowUnsorting="true" responsiveLayout="scroll" sortMode="single"
-                    currentPageReportTemplate=" Mostrando {first} a {last} de {totalRecords} entradas"
+                <p-table #dt class="w-100" [value]="items" [lazy]="true" [columns]="cols" (onLazyLoad)="obtener($event)"
+                    responsiveLayout="scroll" dataKey="id" [paginator]="true" [rows]="10" [totalRecords]="totalRecords"
+                    [loading]="loading" [showCurrentPageReport]="true" allowUnsorting="true" responsiveLayout="scroll"
+                    sortMode="single" currentPageReportTemplate=" Mostrando {first} a {last} de {totalRecords} entradas"
                     [rowsPerPageOptions]="[5,10,25,50,100]" [scrollable]="true" scrollHeight="400px"
-                    (onRowSelect)="select($event)" dataKey="dniCl" selectionMode="single">
+                    (onRowSelect)="select($event)" dataKey="nombreCompania" selectionMode="single">
                     <ng-template pTemplate="header" let-columns>
                         <tr>
                             <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -104,7 +95,7 @@
                             </td>
                             <td>
                                 <button pButton class="w-100" type="button" icon="pi pi-pencil"
-                                    (click)="editarCliente(data)"></button>
+                                    (click)="editar(data)"></button>
                                 <button class="w-100 btn-danger ms-1" pButton type="button" icon="pi pi-times"
                                     (click)="confirmarDelete(data)"></button>
                             </td>

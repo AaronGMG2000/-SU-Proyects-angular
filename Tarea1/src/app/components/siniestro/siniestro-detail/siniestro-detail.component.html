@@ -1,0 +1,157 @@
+<div class="card text-white">
+    <div class="card-header font-weight-bold" style="background-color: #2a323d;">
+        <p-toolbar>
+            <div class="p-toolbar-group-left">
+                <h5>Siniestro</h5>
+            </div>
+            <div class="p-toolbar-group-right">
+                <p-button (click)="back()" icon="pi pi-chevron-left"></p-button>
+            </div>
+        </p-toolbar>
+    </div>
+    <div class="card-body" style="background-color: #2a323df7; width: 100%; height: 515px;  overflow: auto;">
+        <div class="row">
+            <div class="col col-md-12 mt-3">
+                <form action="" id="formClient" [noValidate]="false">
+                    <div class="row">
+                        <div class="col col-md-12">
+                            <app-text [readonly]="true" [name]="'idSiniestro'" [variable]="siniestro"
+                                [element]="'idSiniestro'" [type]="'number'" [text]="'ID'">
+                            </app-text>
+                        </div>
+                        <div class="col col-md-4 mt-3">
+                            <app-text [readonly]="true" [name]="'aceptado'" [variable]="siniestro"
+                                [element]="'aceptado'" [text]="'Aceptado'">
+                            </app-text>
+                        </div>
+                        <div class="col col-md-4 mt-3">
+                            <app-text [readonly]="true" [name]="'indermizacion'" [variable]="siniestro"
+                                [element]="'indermizacion'" [type]="'number'" [text]="'Indermización'" maxlength="50">
+                            </app-text>
+                        </div>
+                        <div class="col col-md-4 mt-3">
+                            <app-text [readonly]="true" [name]="'fechaSiniestro'" [variable]="siniestro"
+                                [element]="'fechaSiniestro'" [type]="'date'" [text]="'Fecha del Siniestro'">
+                            </app-text>
+                        </div>
+                        <div class="col col-md-12 mt-3">
+                            <app-text [readonly]="true" [name]="'causas'" [variable]="siniestro" [element]="'causas'"
+                                [text]="'Causas'" maxlength="50">
+                            </app-text>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col col-md-12 mt-3">
+                <p-accordion>
+                    <p-accordionTab header="Seguro Asociado">
+                        <form action="" id="formClient" [noValidate]="false">
+                            <div class="row">
+                                <div class="col col-md-6">
+                                    <app-text [readonly]="true" [name]="'numeroPoliza'" [variable]="seguro"
+                                        [element]="'numeroPoliza'" [text]="'Numero de Poliza'" [maxlength]="''"
+                                        [type]="'number'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6">
+                                    <app-text [readonly]="true" [name]="'ramo'" [variable]="seguro" [element]="'ramo'"
+                                        [text]="'Ramo'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'fechaInicio'" [variable]="seguro"
+                                        [element]="'fechaInicio'" [text]="'Fecha de Inicio'" [type]="'date'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'fechaVencimiento'" [variable]="seguro"
+                                        [element]="'fechaVencimiento'" [text]="'Fecha de Vencimiento'" [type]="'date'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'condicionesParticulares'" [variable]="seguro"
+                                        [element]="'condicionesParticulares'" [text]="'Condiciones Particulares'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'dniCl'" [variable]="seguro" [element]="'dniCl'"
+                                        [text]="'DNI cliente'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-12 mt-3">
+                                    <app-text [readonly]="true" [name]="'observaciones'" [variable]="seguro"
+                                        [element]="'observaciones'" [text]="'Observaciones'">
+                                    </app-text>
+                                </div>
+
+                            </div>
+                        </form>
+                    </p-accordionTab>
+                    <p-accordionTab header="Perito Asociado">
+                        <form action="" id="formClient" [noValidate]="false">
+                            <div class="row">
+                                <div class="col col-md-12">
+                                    <app-text [readonly]="true" [name]="'dniPerito'" [variable]="perito"
+                                        [element]="'dniPerito'" [type]="'number'" [text]="'DNI'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-12">
+                                    <app-text [readonly]="true" [name]="'nombrePerito'" [variable]="perito"
+                                        [element]="'nombrePerito'" [text]="'Nombre'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'apellidoPerito1'" [variable]="perito"
+                                        [element]="'apellidoPerito1'" [text]="'Primer apellido'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'apellidoPerito2'" [variable]="perito"
+                                        [element]="'apellidoPerito2'" [text]="'Segundo apellido'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'telefonoContacto'" [variable]="perito"
+                                        [element]="'telefonoContacto'" [type]="'tel'" [text]="'Telefono de Contacto'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'telefonoOficina'" [variable]="perito"
+                                        [element]="'telefonoOficina'" [type]="'tel'" [text]="'Telefono de Oficina'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-4 mt-3">
+                                    <app-text [readonly]="true" [name]="'claseVia'" [variable]="perito"
+                                        [element]="'claseVia'" [text]="'Clase de Via'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-4 mt-3">
+                                    <app-text [readonly]="true" [name]="'nombreVia'" [variable]="perito"
+                                        [element]="'nombreVia'" [text]="'Nombre de Via'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-4 mt-3">
+                                    <app-text [readonly]="true" [name]="'numeroVia'" [variable]="perito"
+                                        [element]="'numeroVia'" [text]="'Numero de Via'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'codPostal'" [variable]="perito"
+                                        [element]="'codPostal'" [text]="'Codigo Postal'">
+                                    </app-text>
+                                </div>
+                                <div class="col col-md-6 mt-3">
+                                    <app-text [readonly]="true" [name]="'ciudad'" [variable]="perito"
+                                        [element]="'ciudad'" [text]="'Ciudad'">
+                                    </app-text>
+                                </div>
+                            </div>
+                        </form>
+                    </p-accordionTab>
+                </p-accordion>
+
+            </div>
+
+        </div>
+    </div>
+</div>

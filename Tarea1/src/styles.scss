@@ -1,6 +1,7 @@
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
+  height: 10px;
 }
 
 /* Track */
@@ -16,4 +17,15 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #4a5463;
+}
+
+.p-toolbar {
+  background: #2a323d;
+  border: 0px !important;
+  padding: 0.1rem 1.25rem;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
 }

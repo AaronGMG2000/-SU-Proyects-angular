@@ -1,138 +1,111 @@
 <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
-<p-messages [value]="msgs"></p-messages>
+<p-dialog header="Creación de Seguro" [(visible)]="displayMaximizable" [modal]="true" [style]="{width: '80vw'}"
+    [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
+    <form action="" id="formClient" [noValidate]="false">
+        <div class="row">
+            <div class="col col-md-6">
+                <app-text [name]="'numeroPoliza'" [variable]="seguro" [element]="'numeroPoliza'"
+                    [text]="'Numero de Poliza'" [maxlength]="''" [type]="'number'">
+                </app-text>
+            </div>
+            <div class="col col-md-6">
+                <app-text [name]="'ramo'" [variable]="seguro" [element]="'ramo'" [text]="'Ramo'">
+                </app-text>
+            </div>
+            <div class="col col-md-6 mt-3">
+                <app-text [name]="'fechaInicio'" [variable]="seguro" [element]="'fechaInicio'"
+                    [text]="'Fecha de Inicio'" [type]="'date'">
+                </app-text>
+            </div>
+            <div class="col col-md-6 mt-3">
+                <app-text [name]="'fechaVencimiento'" [variable]="seguro" [element]="'fechaVencimiento'"
+                    [text]="'Fecha de Vencimiento'" [type]="'date'">
+                </app-text>
+            </div>
+            <div class="col col-md-6 mt-3">
+                <app-text [name]="'condicionesParticulares'" [variable]="seguro" [element]="'condicionesParticulares'"
+                    [text]="'Condiciones Particulares'">
+                </app-text>
+            </div>
+            <div class="col col-md-6 mt-3">
+                <div class="col col-12">
+                    <app-autocomplete [data]="clientes" [name]="'dniCl'" [required]="true" [field]="'detalle'"
+                        [placeholder]="'Cliente'" [selectData]="selectData" (onSelectData)="selectDataItem($event)">
+                    </app-autocomplete>
+                </div>
+            </div>
+            <div class="col col-md-12 mt-3">
+                <app-text [name]="'observaciones'" [variable]="seguro" [element]="'observaciones'"
+                    [text]="'Observaciones'">
+                </app-text>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <div class="row">
+            <div class="col col-md-6 mt-3">
+                <div class="form-group">
+                    <button pButton type="submit" (click)="enviarFormulario()" class="w-100 p-button-submit"
+                        label="{{titulo}}"></button>
+                </div>
+            </div>
+            <div class="col col-md-6 mt-3">
+                <div class="form-group">
+                    <button pButton type="button" (click)="cancelar()" class="w-100 p-button-secondary"
+                        label="Cancelar"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-toast position="top-center" key="tc"></p-toast>
 <div class="card text-white">
     <div class="card-header font-weight-bold" style="background-color: #2a323d;">
-        <h5>Seguros</h5>
+        <p-toolbar>
+            <div class="p-toolbar-group-left">
+                <h5>Seguros</h5>
+            </div>
+            <div class="p-toolbar-group-right">
+                <p-button (click)="showMaximizableDialog()" icon="pi pi-plus"></p-button>
+            </div>
+        </p-toolbar>
     </div>
-    <div class="card-body" style="background-color: #2a323df7; overflow: auto;">
-        <div style="width: 100%; height: 485px;">
-            <div class="row">
-                <div class="col col-md-4">
-                    <form action="" id="formClient" [noValidate]="false">
-                        <div class="row">
-                            <div class="col col-md-6">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="numeroPoliza" name="numeroPoliza" type="number" pInputText
-                                            [(ngModel)]="seguro.numeroPoliza" required=""
-                                            [ngModelOptions]="{standalone: true}">
-                                        <label for="numeroPoliza">Numero de Poliza</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col col-md-6">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="ramo" name="ramo" type="text" pInputText [(ngModel)]="seguro.ramo"
-                                            required="" maxlength="20" [ngModelOptions]="{standalone: true}">
-                                        <label for="ramo">Ramo</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col col-md-6 mt-3">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="fechaInicio" name="fechaInicio" type="date" pInputText
-                                            [(ngModel)]="seguro.fechaInicio" required=""
-                                            [ngModelOptions]="{standalone: true}">
-                                        <label for="fechaInicio">Fecha de Inicio</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col col-md-6 mt-3">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="fechaVencimiento" name="fechaVencimiento" type="date" pInputText
-                                            [(ngModel)]="seguro.fechaVencimiento" required="" maxlength="20"
-                                            [ngModelOptions]="{standalone: true}">
-                                        <label for="fechaVencimiento">Fecha de Vencimiento</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col col-md-6 mt-3">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="nombreVia" name="nombreVia" type="text" pInputText
-                                            [(ngModel)]="seguro.condicionesParticulares" required="" maxlength="20"
-                                            [ngModelOptions]="{standalone: true}">
-                                        <label for="nombreVia">Condiciones Particulares</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col col-md-6 mt-3">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="dniCl" name="dniCl" type="number" pInputText
-                                            [(ngModel)]="seguro.dniCl" required=""
-                                            [ngModelOptions]="{standalone: true}">
-                                        <label for="dniCl">DNI cliente</label>
-                                    </span>
-                                </div>
-                            </div>
+    <div class="card-body" style="background-color: #2a323df7; height: 515px; overflow: auto;">
+        <div class="row">
 
-                            <div class="col col-md-12 mt-3">
-                                <div class="form-group">
-                                    <span class="p-float-label p-fluid mt-3">
-                                        <input id="observaciones" name="observaciones" type="text" pInputText
-                                            [(ngModel)]="seguro.observaciones" required="" maxlength="20"
-                                            [ngModelOptions]="{standalone: true}">
-                                        <label for="observaciones">Observaciones</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col col-md-6 mt-3">
-                                <div class="form-group">
-                                    <button pButton type="submit" (click)="enviarFormulario()"
-                                        class="w-100 p-button-submit" label="{{titulo}}"></button>
-                                </div>
-                            </div>
-                            <div class="col col-md-6 mt-3">
-                                <div class="form-group">
-                                    <button pButton type="reset" class="w-100 p-button-secondary"
-                                        label="Cancelar"></button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col col-md-8 mt-4">
-                    <p-table class="w-100" [value]="seguros" [lazy]="true" [columns]="cols"
-                        (onLazyLoad)="obtenerSeguros($event)" responsiveLayout="scroll" dataKey="id" [paginator]="true"
-                        [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [showCurrentPageReport]="true"
-                        allowUnsorting="true" responsiveLayout="scroll" sortMode="single"
-                        currentPageReportTemplate=" Mostrando {first} a {last} de {totalRecords} entradas"
-                        [rowsPerPageOptions]="[5,10,25,50,100]" [scrollable]="true" scrollHeight="400px">
-                        <ng-template pTemplate="header" let-columns>
-                            <tr>
-                                <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
-                                    {{col.header}}
-                                    <p-sortIcon [field]="col.field"></p-sortIcon>
-                                </th>
-                                <th scope="col">
-                                    Editar
-                                </th>
-                                <th scope="col">
-                                    Eliminar
-                                </th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-seguro let-columns="columns">
-                            <tr>
-                                <td *ngFor="let col of columns">
-                                    {{seguro[col.field]}}
-                                </td>
-                                <td>
-                                    <button pButton class="w-100" type="button" icon="pi pi-pencil"
-                                        (click)="editarSeguro(seguro)"></button>
-                                </td>
-                                <td>
-                                    <button class="w-100" pButton type="button" icon="pi pi-times"
-                                        (click)="confirmarDelete(seguro)"></button>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
+            <div class="col col-md-12 mt-3">
+                <p-table class="w-100" [value]="seguros" [lazy]="true" [columns]="cols"
+                    (onLazyLoad)="obtenerSeguros($event)" responsiveLayout="scroll" dataKey="id" [paginator]="true"
+                    [rows]="10" [totalRecords]="totalRecords" [loading]="loading" [showCurrentPageReport]="true"
+                    allowUnsorting="true" responsiveLayout="scroll" sortMode="single"
+                    currentPageReportTemplate=" Mostrando {first} a {last} de {totalRecords} entradas"
+                    [rowsPerPageOptions]="[5,10,25,50,100]" [scrollable]="true" scrollHeight="400px">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th scope="col" *ngFor="let col of columns" [pSortableColumn]="col.field">
+                                {{col.header}}
+                                <p-sortIcon [field]="col.field"></p-sortIcon>
+                            </th>
+                            <th scope="col">
+                                Editar/Eliminar
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-seguro let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns">
+                                {{col.field == "fechaInicio" || col.field == "fechaVencimiento"
+                                ?seguro[col.field].split("T")[0]: seguro[col.field] }}
+                            </td>
+                            <td>
+                                <button pButton class="w-100" type="button" icon="pi pi-pencil"
+                                    (click)="editarSeguro(seguro)"></button>
+                                <button class="w-100 ms-1 btn-danger" pButton type="button" icon="pi pi-times"
+                                    (click)="confirmarDelete(seguro)"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
             </div>
         </div>
     </div>

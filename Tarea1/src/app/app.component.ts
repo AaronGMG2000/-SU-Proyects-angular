@@ -25,8 +25,32 @@ export class AppComponent {
       },
       {
         label: 'Seguros',
-        icon: 'pi pi-fw pi-users',
+        icon: 'pi pi-fw pi-shield',
         routerLink: ['seguro'],
+        routerLinkActiveOptions: "{exact:true}",
+      },
+      {
+        label: 'Compañias',
+        icon: 'pi pi-fw pi-globe',
+        routerLink: ['compania'],
+        routerLinkActiveOptions: "{exact:true}",
+      },
+      {
+        label: 'Peritos',
+        icon: 'pi pi-fw pi-id-card',
+        routerLink: ['perito'],
+        routerLinkActiveOptions: "{exact:true}",
+      },
+      {
+        label: 'Siniestros',
+        icon: 'pi pi-fw pi-exclamation-triangle',
+        routerLink: ['siniestro'],
+        routerLinkActiveOptions: "{exact:true}",
+      },
+      {
+        label: 'Compania-Seguro',
+        icon: 'pi pi-fw pi-globe',
+        routerLink: ['compania-seguro'],
         routerLinkActiveOptions: "{exact:true}",
       }
     ];

@@ -1,13 +1,13 @@
 export class Seguro {
     numeroPoliza: number = 0;
     ramo: string = '';
-    fechaInicio: Date = new Date();
-    fechaVencimiento: Date = new Date();
+    fechaInicio: string = "";
+    fechaVencimiento: string = "";
     condicionesParticulares: string = '';
     observaciones: string = '';
-    dniCl: string = '';
+    dniCl: number = 0;
 
-    constructor(numeroPoliza: number, ramo: string, fechaInicio: Date, fechaVencimiento: Date, condicionesParticulares: string, observaciones: string, dniCl: string) {
+    constructor(numeroPoliza: number, ramo: string, fechaInicio: string, fechaVencimiento: string, condicionesParticulares: string, observaciones: string, dniCl: number) {
         this.numeroPoliza = numeroPoliza;
         this.ramo = ramo;
         this.fechaInicio = fechaInicio;

@@ -1,0 +1,13 @@
+<div class="form-group">
+    <span class="p-float-label p-fluid mt-3">
+        <p-autoComplete [(ngModel)]="selectData" [suggestions]="filter" (completeMethod)="filterData($event)"
+            [field]="field" [dropdown]="true" [required]="required" [name]="name" [placeholder]="placeholder"
+            (onSelect)="selectDataItem()" scrollHeight="125px">
+            <ng-template let-country pTemplate="item">
+                <div class="country-item">
+                    <div>{{country[''+field]}}</div>
+                </div>
+            </ng-template>
+        </p-autoComplete>
+    </span>
+</div>
